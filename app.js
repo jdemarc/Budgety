@@ -8,6 +8,28 @@ var budgetController = (function() {
 // UI Controller
 var UIController = (function() {
 
+    var DOMstrings = {
+        inputType: '.add__type',
+        inputDescription: '.add__description',
+        inputValue: '.add__value',
+        inputBtn: '.add__btn'
+    };
+
+
+
+    return {
+        getInput: function() {
+            return {
+                type: document.querySelector(DOMstrings.inputType).value, // INC or EXP
+                description: document.querySelector(DOMstrings.inputDescription).value,
+                value: document.querySelector(DOMstrings.inputValue).value
+            };
+        },
+
+        getDOMstrings: function() {
+            return DOMstrings;
+        }
+    };
 
 
 })();
@@ -15,15 +37,19 @@ var UIController = (function() {
 // Global App Controller
 var controller = (function(budgetCtrl, UICtrl) {
 
+    var DOM = UICtrl.getDOMstrings();
+
     var ctrlAddItem = function() {
         //1. Get field input data.
+        var input = UICtrl.getInput();
+        console.log(input);
         //2. Add item to budget controller.
         //3. Add item to UI.
         //4. Calculate budget.
         //5. Display budget in UI.
     }
 
-    document.querySelector('.add__btn').addEventListener('click', ctrlAddItem);
+    document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
     //Key press event -- hitting enter key.
     document.addEventListener('keypress', function(event) {
