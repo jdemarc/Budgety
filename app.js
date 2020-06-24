@@ -101,6 +101,24 @@ var UIController = (function() {
             //3. Insert HTML into DOM.
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
 
+        },
+
+        clearFields: function() {
+            var fields, fieldsArray;
+
+            // Returns a list.
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+
+            // If we slice a list, it will return an array.
+            fieldsArray = Array.prototype.slice.call(fields);
+
+            // This anonymous function can accept 3 parameters.
+            // Current value, index number, and the entire array
+            fieldsArray.forEach(function(current, index, array) {
+                current.value = "";
+            });
+
+            fieldsArray[0].focus();
 
         },
 
@@ -143,9 +161,12 @@ var controller = (function(budgetCtrl, UICtrl) {
         //3. Add item to UI.
         UICtrl.addListItem(newItem, input.type);
 
-        //4. Calculate budget.
+        //4. Clear input fields.
+        UICtrl.clearFields();
 
-        //5. Display budget in UI.
+        //5. Calculate budget.
+
+        //6. Display budget in UI.
     };
 
     return {
