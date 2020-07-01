@@ -179,7 +179,33 @@ var UIController = (function() {
         expensesPercLabel: '.item__percentage'
     };
 
+    var formatNumber = function(num, type) {
+        var numSplit, int, dec;
+        /*
+        + or - before number
+        2 decimal points
+        comma separating thousands
 
+        2310.3452 >> + 2,310.35
+        */
+
+        // Find absolute value of number
+        num = Math.abs(num);
+
+        // Fix to two decimal places.
+        num = num.toFixed(2);
+
+        numSplit = num.split('.');
+        int = numSplit[0];
+
+        if (int.length > 3) {
+            int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+        }
+
+        dec = numSplit[1];
+
+        return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
+    };
 
     return {
         getInput: function() {
@@ -208,7 +234,7 @@ var UIController = (function() {
             //2. Replace placeholder with actual data.
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
-            newHtml = newHtml.replace('%value%', obj.value);
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
             //3. Insert HTML into DOM.
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
