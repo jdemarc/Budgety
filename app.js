@@ -64,6 +64,24 @@ var budgetController = (function() {
             return newItem;
         },
 
+        deleteItem: function(type, id) {
+
+            var ids, index;
+
+            ids = data.allItems[type].map(function(current) {
+                return current.id;
+            });
+
+            // Returns the index number of the element of the array.
+            index = ids.indexOf(id);
+
+            if (index !== -1) {
+                // Splice allows you to start at a given (index) value and delete the number of elements following it. In this example, it is 1.
+                data.allItems[type].splice(index, 1);
+            }
+
+        },
+
         calculateBudget: function () {
             // Calculate total income and expenses
             calculateTotal('exp');
@@ -256,15 +274,17 @@ var controller = (function(budgetCtrl, UICtrl) {
         var itemID, splitID, type, ID;
 
         //Traversal of DOM structure
-        itemID = event.log(event.target.parentNode.parentNode.parentNode.parentNode.id);
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
 
         if(itemID) {
             // inc-1
             splitID = itemID.split('-');
             type = splitID[0];
-            ID = splitID[1];
+            // Convert string to integer.
+            ID = parseInt(splitID[1]);
 
             // Delete item from data structure.
+            budgetCtrl.deleteItem(type, ID);
 
             // Delete item from UI.
 
